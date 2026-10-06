@@ -1,0 +1,126 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model Product {
+  id          String   @id @default(uuid())
+  name        String
+  slug        String   @unique
+  price       Float
+  category    String
+  description String
+  sizes       String   // Comma-separated or JSON
+  details     String   // JSON string
+  isNew       Boolean  @default(false)
+  soldOut     Boolean  @default(false)
+  soldOutSizes String? // JSON array of sizes that are sold out
+  colors      Color[]
+  productType  String?
+  collectionId String?
+  collection   Collection? @relation(fields: [collectionId], references: [id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Color {
+  id        String  @id @default(uuid())
+  name      String
+  hex       String
+  image     String
+  images    String? // JSON array of additional gallery image URLs
+  soldOut      Boolean @default(false)
+  soldOutSizes String? // JSON array of sizes sold out for this colour
+  sizeStock    String? // JSON object of size->quantity, e.g. {"S":5,"M":0}
+  productId    String
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+}
+
+model Collection {
+  id          String   @id @default(uuid())
+  name        String
+  slug        String   @unique
+  description String
+  image       String
+  itemCount   Int
+  visible     Boolean  @default(true)
+  products    Product[]
+}
+
+model MosaicTile {
+  id            String  @id @default(uuid())
+  type          String  // "image" | "cta"
+  image         String?
+  alt           String?
+  link          String?
+  label         String?
+  colSpan       String?
+  rowSpan       String?
+  mobileColSpan String?
+  mobileRowSpan String?
+  subtitle      String?
+  heading       String?
+  tagline       String?
+  ctaText       String?
+  ctaLink       String?
+  visible       Boolean @default(true)
+  order         Int     @default(0)
+}
+
+model Setting {
+  id    String @id @default(uuid())
+  key   String @unique
+  value String
+}
+
+model Order {
+  id              String   @id @default(uuid())
+  orderId         String   @unique // Razorpay Order ID
+  amount          Float
+  currency        String
+  status          String   // "created" | "paid" | "failed"
+  shippingStatus  String   @default("Pending") // "Pending" | "Processing" | "Shipped" | "Delivered" | "Cancelled"
+  customerName    String
+  customerEmail   String
+  customerPhone   String
+  address         String
+  billingAddress  String?
+  items           String   // JSON array of objects
+  paymentId       String?  // Razorpay Payment ID
+  signature       String?  // Razorpay Signature
+  userId          String?
+  user            User?    @relation(fields: [userId], references: [id])
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model User {
+  id        String    @id @default(uuid())
+  email     String    @unique
+  password  String
+  firstName String
+  lastName  String
+  phone     String?
+  addresses Address[]
+  orders    Order[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model Address {
+  id        String  @id @default(uuid())
+  label     String  // e.g., "Home", "Office"
+  line1     String
+  line2     String?
+  city      String
+  state     String
+  zip       String
+  country   String
+  isDefault Boolean @default(false)
+  userId    String
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+}

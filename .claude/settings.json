@@ -1,0 +1,40 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(rtk proxy *)",
+      "Bash(lsof -nP -iTCP:3001 -sTCP:LISTEN)",
+      "Bash(lsof -nP -iTCP:8080 -sTCP:LISTEN)",
+      "Bash(disown)",
+      "Read(//tmp/**)",
+      "mcp__plugin_ecc_playwright__browser_navigate",
+      "Bash(lsof -nP -iTCP:3001 -sTCP:LISTEN -t)",
+      "Bash(lsof -nP -iTCP:8080 -sTCP:LISTEN -t)",
+      "Bash(kill 69342 69875)",
+      "Bash(kill 69341)",
+      "Bash(kill 40807 40814 40854)",
+      "Bash(ffprobe -v quiet -print_format json -show_format -show_streams /Users/anandumv/Downloads/danywens-storefront-main/src/assets/dany-wens/hero-video.mp4)",
+      "Bash(node /tmp/dwtest/test-sizechart.mjs)",
+      "Bash(node /tmp/dwtest/test-popup.mjs)",
+      "Bash(node -e 'const { PrismaClient } = require\\('\\\\''@prisma/client'\\\\''\\); const p = new PrismaClient\\(\\); p.color.findFirst\\(\\).then\\(r => { console.log\\(Object.keys\\(r || {}\\)\\); p.$disconnect\\(\\); }\\).catch\\(e => { console.error\\(e.message\\); p.$disconnect\\(\\); }\\)')",
+      "Bash(./node_modules/.bin/prisma db *)",
+      "Skill(setup-deploy)",
+      "Skill(setup-deploy:*)",
+      "Bash(chmod +x deploy/ship.sh)",
+      "Bash(./deploy/ship.sh 54.90.130.215)",
+      "Bash(tee /tmp/ship-deploy.log)",
+      "Bash(tee /tmp/ship-deploy2.log)",
+      "Skill(ship)",
+      "Skill(ship:*)",
+      "Bash(/usr/local/bin/npx prisma *)",
+      "Bash(node_modules/.bin/prisma db *)",
+      "Bash(chmod 400 /Users/anandumv/Downloads/danywens-storefront-main/Danywens.pem)",
+      "Bash(node -e \"require\\('canvas'\\)\")",
+      "Bash(magick -background '#0a0a0a' -density 512 /Users/anandumv/Downloads/danywens-storefront-main/public/favicon.svg -define icon:auto-resize=32,16 /Users/anandumv/Downloads/danywens-storefront-main/public/favicon.ico)",
+      "Bash(magick -background '#0a0a0a' -density 512 /Users/anandumv/Downloads/danywens-storefront-main/public/favicon.svg -resize 180x180 /Users/anandumv/Downloads/danywens-storefront-main/public/apple-touch-icon.png)"
+    ],
+    "additionalDirectories": [
+      "/private/tmp",
+      "/Users/anandumv/Downloads"
+    ]
+  }
+}
