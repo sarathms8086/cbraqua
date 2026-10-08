@@ -21,6 +21,8 @@ model Product {
   soldOutSizes String? // JSON array of sizes that are sold out
   colors      Color[]
   productType  String?
+  shippingText String? // Per-product override; falls back to site setting
+  washcareText String? // Per-product override; falls back to site setting
   collectionId String?
   collection   Collection? @relation(fields: [collectionId], references: [id])
   createdAt   DateTime @default(now())

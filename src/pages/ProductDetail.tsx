@@ -590,11 +590,11 @@ const ProductDetail = () => {
               </TabsContent>
 
               <TabsContent value="washcare" className="mt-4 px-3 pb-2 text-sm text-muted-foreground">
-                <p className="whitespace-pre-line">{siteSettings.washcareText || "Dry clean recommended. Wash dark colors separately and avoid direct ironing on prints."}</p>
+                <p className="whitespace-pre-line">{product.washcareText || siteSettings.washcareText || "Dry clean recommended. Wash dark colors separately and avoid direct ironing on prints."}</p>
               </TabsContent>
 
               <TabsContent value="shipping" className="mt-4 px-3 pb-2 text-sm text-muted-foreground">
-                <p className="whitespace-pre-line">{siteSettings.shippingText || "Packed within 24 hours. Free delivery pan-India. Dispatches next day for in-stock products."}</p>
+                <p className="whitespace-pre-line">{product.shippingText || siteSettings.shippingText || "Packed within 24 hours. Free delivery pan-India. Dispatches next day for in-stock products."}</p>
               </TabsContent>
             </Tabs>
           </aside>

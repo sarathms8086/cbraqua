@@ -151,7 +151,7 @@ app.get("/api/products/:id", async (req, res) => {
 });
 
 app.post("/api/products", async (req, res) => {
-  const { name, slug, price, category, productType, description, sizes, details, isNew, soldOut, soldOutSizes, colors, collectionId } = req.body;
+  const { name, slug, price, category, productType, description, sizes, details, isNew, soldOut, soldOutSizes, colors, collectionId, shippingText, washcareText } = req.body;
   const colorsWithImages = (colors || []).map((c: any) => ({
     name: c.name,
     hex: c.hex,
@@ -170,6 +170,8 @@ app.post("/api/products", async (req, res) => {
       soldOut: soldOut || false,
       soldOutSizes: soldOutSizes ? JSON.stringify(soldOutSizes) : null,
       collectionId: collectionId || null,
+      shippingText: shippingText?.trim() || null,
+      washcareText: washcareText?.trim() || null,
       colors: { create: colorsWithImages }
     },
     include: { colors: true }
@@ -179,7 +181,7 @@ app.post("/api/products", async (req, res) => {
 
 app.put("/api/products/:id", async (req, res) => {
   const { id } = req.params;
-  const { name, slug, price, category, productType, description, sizes, details, isNew, soldOut, soldOutSizes, colors, collectionId } = req.body;
+  const { name, slug, price, category, productType, description, sizes, details, isNew, soldOut, soldOutSizes, colors, collectionId, shippingText, washcareText } = req.body;
 
   await prisma.color.deleteMany({ where: { productId: id } });
 
@@ -203,6 +205,8 @@ app.put("/api/products/:id", async (req, res) => {
       soldOut: soldOut || false,
       soldOutSizes: soldOutSizes ? JSON.stringify(soldOutSizes) : null,
       collectionId: collectionId || null,
+      shippingText: shippingText?.trim() || null,
+      washcareText: washcareText?.trim() || null,
       colors: { create: colorsWithImages }
     },
     include: { colors: true }

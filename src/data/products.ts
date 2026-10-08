@@ -48,6 +48,10 @@ export interface Product {
   soldOut?: boolean;
   soldOutSizes?: string[];
   collectionId?: string;
+  /** Overrides the site-wide shipping text when set */
+  shippingText?: string | null;
+  /** Overrides the site-wide washcare text when set */
+  washcareText?: string | null;
 }
 
 export const products: Product[] = [

@@ -501,6 +501,32 @@ export default function AdminProducts() {
                       />
                     </div>
 
+                    {/* Washcare override */}
+                    <div>
+                      <label className="block text-xs font-semibold text-muted-foreground uppercase tracking-[0.08em] mb-1.5">Washcare</label>
+                      <textarea
+                        value={editing.washcareText || ""}
+                        onChange={(e) => setEditing({ ...editing, washcareText: e.target.value })}
+                        rows={2}
+                        className="w-full border border-border bg-transparent px-3 py-2.5 text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-foreground/10 focus:border-foreground/60 transition-colors resize-none"
+                        placeholder={siteSettings.washcareText || "Leave blank to use the default from Settings"}
+                      />
+                      <p className="text-xs text-muted-foreground mt-1">Leave blank to use the site-wide text from Settings.</p>
+                    </div>
+
+                    {/* Shipping override */}
+                    <div>
+                      <label className="block text-xs font-semibold text-muted-foreground uppercase tracking-[0.08em] mb-1.5">Shipping</label>
+                      <textarea
+                        value={editing.shippingText || ""}
+                        onChange={(e) => setEditing({ ...editing, shippingText: e.target.value })}
+                        rows={2}
+                        className="w-full border border-border bg-transparent px-3 py-2.5 text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-foreground/10 focus:border-foreground/60 transition-colors resize-none"
+                        placeholder={siteSettings.shippingText || "Leave blank to use the default from Settings"}
+                      />
+                      <p className="text-xs text-muted-foreground mt-1">Leave blank to use the site-wide text from Settings.</p>
+                    </div>
+
                     {/* Details */}
                     <div>
                       <div className="flex items-center justify-between mb-1.5">
