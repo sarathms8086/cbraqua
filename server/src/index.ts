@@ -14,7 +14,7 @@ import { PrismaClient } from "@prisma/client";
 import sharp from "sharp";
 import { getUploadDir } from "./upload-paths";
 import { getRazorpayConfig } from "./razorpay-config";
-import { sendContactEmail, sendOrderNotification, isMailConfigured } from "./mailer";
+import { sendContactEmail, sendOrderNotification, sendCustomerConfirmation, isMailConfigured } from "./mailer";
 
 const prisma = new PrismaClient();
 const app = express();
@@ -468,6 +468,18 @@ app.post("/api/orders/verify", async (req, res) => {
       } catch (e) {
         console.error("Order notification email failed (payment still confirmed):", e);
       }
+      try {
+        await sendCustomerConfirmation({
+          orderId: paidOrder.orderId,
+          amount: paidOrder.amount,
+          customerName: paidOrder.customerName,
+          customerEmail: paidOrder.customerEmail,
+          address: paidOrder.address,
+          items: JSON.parse(paidOrder.items || "[]"),
+        });
+      } catch (e) {
+        console.error("Customer confirmation email failed (payment still confirmed):", e);
+      }
 
       return res.json({ success: true, message: "Payment verified successfully" });
     } else {
@@ -824,4 +836,5 @@ app.post("/api/upload", upload.array("files"), async (req, res) => {
 
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
+  if (!isMailConfigured()) console.warn("WARNING: SMTP_PASS not set — order/contact emails are DISABLED.");
 });

@@ -32,15 +32,32 @@ function AddressFields({
   prefix,
   values,
   onChange,
+  lockCountry = false,
 }: {
   prefix: string;
   values: typeof emptyAddress;
   onChange: (field: string, value: string) => void;
+  lockCountry?: boolean;
 }) {
   return (
     <>
       <div className="space-y-1.5">
         <label className={labelClass}>Country</label>
+        {lockCountry ? (
+          <>
+            <input
+              readOnly
+              name={`${prefix}_country`}
+              value="India"
+              autoComplete="off"
+              className={`${inputClass} cursor-default`}
+            />
+            <p className="text-[11px] text-muted-foreground">
+              We currently ship within India only. Shipping from outside India?{" "}
+              <Link to="/contact" className="underline text-foreground">Contact us</Link>.
+            </p>
+          </>
+        ) : (
         <select
           required
           name={`${prefix}_country`}
@@ -52,6 +69,7 @@ function AddressFields({
             <option key={c} value={c}>{c}</option>
           ))}
         </select>
+        )}
       </div>
       <div className="space-y-1.5">
         <label className={labelClass}>Street / Building / Flat No.</label>
@@ -115,7 +133,7 @@ const Checkout = () => {
         city: defaultAddr?.city || "",
         state: defaultAddr?.state || "",
         pincode: defaultAddr?.zip || "",
-        country: defaultAddr?.country || "India",
+        country: "India", // shipping is India-only; never pre-fill another country
       });
     }
   }, [isAuthenticated, user]);
@@ -307,6 +325,7 @@ const Checkout = () => {
                 <div className="space-y-4">
                   <AddressFields
                     prefix="shipping"
+                    lockCountry
                     values={shipping}
                     onChange={(field, value) => setShipping((p) => ({ ...p, [field]: value }))}
                   />

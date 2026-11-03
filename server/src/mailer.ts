@@ -12,7 +12,7 @@ export function isMailConfigured(): boolean {
   return Boolean(SMTP_PASS && !SMTP_PASS.includes("placeholder"));
 }
 
-let transporter: nodemailer.Transporter | null = null;
+let transporter: ReturnType<typeof nodemailer.createTransport> | null = null;
 function getTransporter() {
   if (!transporter) {
     transporter = nodemailer.createTransport({
@@ -87,6 +87,46 @@ export async function sendOrderNotification(order: {
     to: SUPPORT_EMAIL,
     replyTo: order.customerEmail ? `"${order.customerName}" <${order.customerEmail}>` : undefined,
     subject: `New Order ₹${order.amount} — ${order.customerName} (${order.orderId})`,
+    html,
+  });
+}
+
+/** New paid order → customer's inbox (order confirmation). */
+export async function sendCustomerConfirmation(order: {
+  orderId: string;
+  amount: number;
+  customerName: string;
+  customerEmail: string;
+  address: string;
+  items: any[];
+}) {
+  if (!isMailConfigured() || !order.customerEmail) return;
+  const first = esc((order.customerName || "").trim().split(" ")[0] || "there");
+  const rows = (order.items || [])
+    .map(
+      (it) =>
+        `<tr><td style="padding:6px 8px;border-bottom:1px solid #eee">${esc(it.name)}<br><span style="color:#777;font-size:12px">${esc(it.color)} / ${esc(it.size)}</span></td><td style="padding:6px 8px;border-bottom:1px solid #eee;text-align:center">${esc(String(it.quantity))}</td><td style="padding:6px 8px;border-bottom:1px solid #eee;text-align:right">₹${esc(String(it.price))}</td></tr>`
+    )
+    .join("");
+  const html = `
+    <div style="font-family:Arial,sans-serif;max-width:600px;color:#111">
+      <h2 style="letter-spacing:2px">DANYWENS</h2>
+      <p>Hi ${first},</p>
+      <p>Thank you for your order. Your payment was received and we're getting your pieces ready to ship.</p>
+      <p style="color:#555"><strong>Order:</strong> ${esc(order.orderId)}<br>
+      <strong>Shipping to:</strong> ${esc(order.address)}</p>
+      <table style="border-collapse:collapse;width:100%">
+        <thead><tr><th style="text-align:left;padding:6px 8px">Item</th><th style="padding:6px 8px">Qty</th><th style="text-align:right;padding:6px 8px">Price</th></tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+      <p style="font-size:16px"><strong>Total paid: ₹${esc(String(order.amount))}</strong></p>
+      <p style="color:#555">We'll email you again when your order ships. Questions? Just reply to this email.</p>
+    </div>`;
+  return getTransporter().sendMail({
+    from: `"Danywens" <${SMTP_USER}>`,
+    to: order.customerEmail,
+    replyTo: SUPPORT_EMAIL,
+    subject: `Your Danywens order is confirmed (${order.orderId})`,
     html,
   });
 }

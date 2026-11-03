@@ -66,6 +66,9 @@ ssh -i $PEM_FILE $REMOTE_USER@$SERVER_IP << EOF
     cd $APP_DIR/server
     npm install --production
     
+    # Preserve SMTP_*/SUPPORT_EMAIL (set by hand on the server) across deploys
+    grep -E '^(SMTP_|SUPPORT_EMAIL)' .env > /tmp/danywens-keep.env 2>/dev/null || true
+
     # Create .env on remote
     cat > .env << EOL
 DATABASE_URL="file:./dev.db"
@@ -73,6 +76,7 @@ PORT=3001
 RAZORPAY_KEY_ID="$RAZORPAY_KEY_ID"
 RAZORPAY_KEY_SECRET="$RAZORPAY_KEY_SECRET"
 EOL
+    cat /tmp/danywens-keep.env >> .env && rm -f /tmp/danywens-keep.env
 
     npx prisma generate
 
