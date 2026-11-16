@@ -29,4 +29,4 @@ ENV DATABASE_URL="file:./dev.db"
 EXPOSE 3001
 
 # Push database schema, seed if needed, and run Express server
-CMD ["sh", "-c", "cd server && npx prisma db push && node dist/src/index.js"]
+CMD ["sh", "-c", "cd server && npx prisma db push && (npx prisma db seed || true) && node dist/src/index.js"]

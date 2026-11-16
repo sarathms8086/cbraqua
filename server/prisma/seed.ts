@@ -3,6 +3,12 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 async function main() {
+  const existingCount = await prisma.product.count();
+  if (existingCount > 0) {
+    console.log(`Database already has ${existingCount} products. Skipping seed.`);
+    return;
+  }
+
   console.log("Cleaning database...");
   await prisma.color.deleteMany();
   await prisma.product.deleteMany();

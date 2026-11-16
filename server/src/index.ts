@@ -837,12 +837,15 @@ app.post("/api/upload", upload.array("files"), async (req, res) => {
 // --- SERVE SPA FRONTEND IN PRODUCTION ---
 const clientDistCandidates = [
   path.resolve(process.cwd(), "dist"),
+  path.resolve(process.cwd(), "../dist"),
   path.resolve(__dirname, "../../../dist"),
   path.resolve(__dirname, "../../dist"),
+  path.resolve("/app/dist"),
 ];
-const clientDistPath = clientDistCandidates.find((p) => fs.existsSync(p));
+const clientDistPath = clientDistCandidates.find((p) => fs.existsSync(path.join(p, "index.html")));
 
 if (clientDistPath) {
+  console.log("Serving SPA frontend from:", clientDistPath);
   app.use(express.static(clientDistPath, { maxAge: "1d", index: false }));
   // Fallback for Single Page Application navigation (safe for Express 4 and Express 5/path-to-regexp v8)
   app.use((req, res, next) => {
@@ -857,6 +860,8 @@ if (clientDistPath) {
     }
     res.sendFile(path.join(clientDistPath, "index.html"));
   });
+} else {
+  console.warn("WARNING: Frontend dist directory (with index.html) not found in candidates:", clientDistCandidates);
 }
 
 app.listen(port, () => {
