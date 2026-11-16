@@ -4,7 +4,7 @@ import { useAdmin, DEFAULT_PAGE_CONTENT } from "@/contexts/AdminContext";
 import { useSEO } from "@/hooks/use-seo";
 import { apiFetch } from "@/lib/api";
 
-const SUPPORT_EMAIL_FALLBACK = "hello@danywens.com";
+const SUPPORT_EMAIL_FALLBACK = "hello@cbraqua.com";
 
 const Contact = () => {
   const { siteSettings } = useAdmin();
@@ -112,11 +112,12 @@ const Contact = () => {
               <div>
                 <label className="block text-xs font-semibold tracking-[0.1em] uppercase mb-2">Subject</label>
                 <select value={form.subject} onChange={(e) => setField("subject", e.target.value)} className="w-full border border-border bg-transparent px-4 py-3 text-sm focus:outline-none focus:border-foreground transition-colors">
-                  <option>General Inquiry</option>
-                  <option>Order Support</option>
-                  <option>Returns & Exchanges</option>
-                  <option>Press</option>
-                  <option>Wholesale</option>
+                  <option>Live Fish Order &amp; Delivery</option>
+                  <option>Custom Aquascape Consultation</option>
+                  <option>Terrarium &amp; Vivarium Project</option>
+                  <option>Equipment &amp; Filter Support</option>
+                  <option>Live Arrival Warranty Claim</option>
+                  <option>Wholesale &amp; Retail Supply</option>
                 </select>
               </div>
               <div>

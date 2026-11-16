@@ -64,6 +64,19 @@ export default {
         },
         "sold-out": "hsl(var(--sold-out))",
         "drop-accent": "hsl(var(--drop-accent))",
+        cyan: {
+          brand: "#00c8f8",
+          glow: "#00e5ff",
+          dark: "#083344",
+        },
+        aqua: {
+          bg: "#070e15",
+          card: "#0c1622",
+          surface: "#0f1c2a",
+          border: "#172838",
+          borderHover: "#1f3a52",
+          green: "#00d796",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",

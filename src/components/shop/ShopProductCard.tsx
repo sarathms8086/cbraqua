@@ -1,90 +1,136 @@
 import { Link, useNavigate } from "react-router-dom";
-import { Plus } from "lucide-react";
+import { Search, ShoppingBag, Check } from "lucide-react";
 import { Product } from "@/data/products";
 import { useState } from "react";
 import { formatPrice } from "@/lib/price";
-import { normalizeImageUrl } from "@/lib/productGallery";
+import { useCart } from "@/components/cart/CartContext";
+import { toast } from "sonner";
 
 interface ShopProductCardProps {
   product: Product;
+  onQuickView?: (product: Product) => void;
 }
 
-const ShopProductCard = ({ product }: ShopProductCardProps) => {
-  const [colorIndex, setColorIndex] = useState(0);
-  const currentColor = product.colors[colorIndex];
+const ShopProductCard = ({ product, onQuickView }: ShopProductCardProps) => {
   const navigate = useNavigate();
+  const { addItem } = useCart();
+  const [added, setAdded] = useState(false);
 
-  if (!currentColor) return null;
+  const primaryColor = product.colors?.[0];
+  const image = primaryColor?.image || "https://images.unsplash.com/photo-1520302630591-fd1c66edc19d?auto=format&fit=crop&w=800&q=80";
+  const stockCount = product.stock || 25;
+
+  const handleAddToCart = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    addItem({
+      productId: product.id,
+      name: product.name,
+      price: product.price,
+      size: product.sizes?.[0] || "Standard",
+      color: primaryColor?.name || "Default",
+      image,
+    });
+
+    setAdded(true);
+    toast.success(`Added ${product.name} to cart`);
+    setTimeout(() => setAdded(false), 1500);
+  };
+
+  const handleQuickViewClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (onQuickView) {
+      onQuickView(product);
+    } else {
+      navigate(`/product/${product.slug}`);
+    }
+  };
 
   return (
-    <div className="group">
-      {/* Image */}
-      <Link to={`/product/${product.slug}`} className="relative block bg-secondary overflow-hidden aspect-[3/4]">
-        <img
-          src={normalizeImageUrl(currentColor.image)}
-          alt={`${product.name} in ${currentColor.name}`}
-          className={`w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 ${
-            product.category !== "bottoms" ? "object-top" : "object-center"
-          }`}
-          style={{ filter: "blur(0.6px) contrast(1.04)" }}
-          loading="lazy"
-        />
-        {product.isNew && (
-          <span className="absolute top-3 left-3 bg-foreground text-background text-[9px] font-semibold tracking-[0.15em] uppercase px-2.5 py-1">
-            New
-          </span>
-        )}
-        {product.soldOut && (
-          <span className="absolute top-3 left-3 bg-sold-out text-background text-[9px] font-semibold tracking-[0.15em] uppercase px-2.5 py-1">
-            Sold Out
-          </span>
-        )}
-        {/* Quick add - visible on touch, hover-reveal on desktop */}
-        {!product.soldOut && (
-          <button
-            type="button"
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              navigate(`/product/${product.slug}`);
-            }}
-            className="absolute bottom-3 right-3 min-w-11 min-h-11 flex items-center justify-center bg-background/90 backdrop-blur-sm opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-200 hover:bg-background touch-manipulation"
-            aria-label="View product"
-          >
-            <Plus className="h-4 w-4 text-foreground" />
-          </button>
-        )}
-      </Link>
+    <div className="group rounded-2xl bg-[#0c1622] border border-[#172838] p-3 hover:border-cyan-500/40 hover:shadow-xl hover:shadow-cyan-950/20 transition-all duration-300 flex flex-col justify-between">
+      <div>
+        {/* Product Image Container */}
+        <Link
+          to={`/product/${product.slug}`}
+          className="relative block w-full aspect-[4/3] rounded-xl overflow-hidden bg-[#070e15]"
+        >
+          <img
+            src={image}
+            alt={product.name}
+            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+            loading="lazy"
+          />
 
-      {/* Info */}
-      <div className="mt-3 space-y-1">
-        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-0.5">
-          <Link to={`/product/${product.slug}`} className="text-xs font-semibold uppercase tracking-[0.05em] hover:text-muted-foreground transition-colors leading-tight line-clamp-1 min-w-0">
+          {/* Featured Pill Badge (Matches Screenshot) */}
+          {product.featured && (
+            <span className="absolute top-2.5 left-2.5 bg-[#00c8f8] text-slate-950 text-[9px] font-extrabold uppercase tracking-wider px-2.5 py-0.5 rounded-full shadow-md">
+              FEATURED
+            </span>
+          )}
+
+          {product.isNew && !product.featured && (
+            <span className="absolute top-2.5 left-2.5 bg-emerald-400 text-slate-950 text-[9px] font-extrabold uppercase tracking-wider px-2.5 py-0.5 rounded-full shadow-md">
+              NEW
+            </span>
+          )}
+        </Link>
+
+        {/* Product Info */}
+        <div className="mt-3">
+          <Link
+            to={`/product/${product.slug}`}
+            className="text-sm font-semibold text-white group-hover:text-cyan-300 transition-colors line-clamp-1 block"
+            title={product.name}
+          >
             {product.name}
           </Link>
-          <span className="text-xs font-semibold shrink-0 text-muted-foreground sm:text-foreground">{formatPrice(product.price)}</span>
+
+          {/* Price & Stock Row (Matches Screenshot: e.g. "₹490 60 in stock") */}
+          <div className="flex items-center gap-2 mt-1">
+            <span className="text-sm sm:text-base font-bold text-white">
+              {formatPrice(product.price)}
+            </span>
+            <span className="text-[11px] sm:text-xs text-slate-400 font-normal">
+              {stockCount} in stock
+            </span>
+          </div>
         </div>
-        <div className="flex items-center gap-2">
-          <span className="text-[11px] text-muted-foreground">{currentColor.name}</span>
-          {product.colors.length > 1 && (
+      </div>
+
+      {/* Action Buttons Row (Matches Screenshot) */}
+      <div className="mt-3.5 flex items-center gap-2">
+        <button
+          type="button"
+          onClick={handleAddToCart}
+          className={`flex-1 h-9 rounded-full text-xs font-bold flex items-center justify-center gap-1.5 transition-all shadow-sm ${
+            added
+              ? "bg-[#00d796] text-slate-950"
+              : "bg-[#00c8f8] hover:bg-cyan-300 text-slate-950 active:scale-95 shadow-cyan-500/10"
+          }`}
+          aria-label={`Add ${product.name} to cart`}
+        >
+          {added ? (
             <>
-              <span className="text-[11px] text-muted-foreground">·</span>
-              <div className="flex items-center gap-1">
-                {product.colors.map((c, i) => (
-                  <button
-                    key={c.name}
-                    onClick={() => setColorIndex(i)}
-                    className={`w-3 h-3 rounded-full border transition-all ${
-                      i === colorIndex ? "border-foreground scale-110" : "border-border"
-                    }`}
-                    style={{ backgroundColor: c.hex }}
-                    aria-label={c.name}
-                  />
-                ))}
-              </div>
+              <Check className="w-3.5 h-3.5 stroke-[3]" /> Added
+            </>
+          ) : (
+            <>
+              <ShoppingBag className="w-3.5 h-3.5" /> Add
             </>
           )}
-        </div>
+        </button>
+
+        {/* Quick View Button (Magnifying glass in rounded dark pill) */}
+        <button
+          type="button"
+          onClick={handleQuickViewClick}
+          className="w-9 h-9 rounded-full bg-[#111e2c] border border-[#1d3347] hover:border-cyan-400 text-slate-300 hover:text-cyan-300 flex items-center justify-center transition-colors shrink-0"
+          aria-label={`View ${product.name} details`}
+        >
+          <Search className="w-3.5 h-3.5" />
+        </button>
       </div>
     </div>
   );

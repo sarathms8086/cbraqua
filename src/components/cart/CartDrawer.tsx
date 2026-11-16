@@ -127,12 +127,16 @@ const CartDrawer = () => {
               <span className="text-sm font-semibold uppercase tracking-[0.1em]">Total</span>
               <span className="text-sm font-semibold">{formatPrice(grandTotal)}</span>
             </div>
+            <div className="p-3 rounded-xl bg-[#0e1c2a] border border-[#1b2f42] flex items-center gap-2.5 text-[11px] text-cyan-300">
+              <span className="w-2 h-2 rounded-full bg-[#00d796] shrink-0" />
+              <span>100% Live Arrival Guarantee on all livestock shipments</span>
+            </div>
             <Link 
               to="/checkout"
               onClick={() => setIsOpen(false)}
-              className="block w-full bg-foreground text-background py-4 text-center text-xs font-semibold tracking-[0.2em] uppercase hover:bg-foreground/90 transition-colors"
+              className="block w-full bg-[#00c8f8] hover:bg-cyan-300 text-slate-950 font-bold py-3.5 text-center text-xs uppercase tracking-wider rounded-full transition-all shadow-md shadow-cyan-500/20"
             >
-              Checkout
+              Proceed to Checkout
             </Link>
             <Link
               to="/shop"

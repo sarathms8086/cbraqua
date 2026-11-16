@@ -399,7 +399,7 @@ const Checkout = () => {
               <button
                 type="submit"
                 disabled={loading || !shipsToIndia}
-                className="w-full bg-foreground text-background py-5 text-xs font-semibold tracking-[0.3em] uppercase hover:opacity-90 transition-opacity mt-8 flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full bg-[#00c8f8] hover:bg-cyan-300 text-slate-950 font-bold py-4 text-xs tracking-[0.2em] uppercase rounded-full transition-all shadow-lg shadow-cyan-500/25 mt-8 flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {loading ? "PROCESSING..." : !shipsToIndia ? "UNAVAILABLE FOR YOUR COUNTRY" : "PAY NOW"}
               </button>

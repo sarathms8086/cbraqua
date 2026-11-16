@@ -37,40 +37,33 @@ export interface PageContent {
 
 export const DEFAULT_PAGE_CONTENT: PageContent = {
   shipping: [
-    { heading: "Domestic Shipping", body: "We offer free standard shipping on all orders over ₹10,000. Standard delivery takes 3-5 business days." },
-    { heading: "Order Processing", body: "Orders are processed within 1-2 business days. You will receive a shipping confirmation with tracking once dispatched." },
+    { heading: "100% Live Arrival Guarantee", body: "Every live ornamental fish, koi, and aquatic animal is packed in medical-grade oxygen bags inside insulated thermocol containers with 48-hour thermal heat/ice packs. We guarantee 100% live arrival across India." },
+    { heading: "Transit & Dispatch", body: "Orders dispatch Mondays through Thursdays to avoid weekend transit delays. Consignment tracking is shared via SMS and WhatsApp immediately upon airport handover." },
   ],
   returns: [
-    { heading: "Return Policy", body: "We accept returns within 30 days of delivery. Items must be unworn, unwashed, and in original packaging with all tags attached." },
-    { heading: "How to Return", body: "Contact our team at returns@danywens.com with your order number. We will provide a prepaid return label." },
-    { heading: "Exchanges", body: "We offer free exchanges for different sizes or colours. Contact us within 30 days of delivery." },
-    { heading: "Refunds", body: "Refunds are processed within 5-7 business days of receiving your return to your original payment method." },
+    { heading: "Dead-On-Arrival (DOA) Claim Policy", body: "In the unlikely event a fish arrives non-viable, take a clear unboxing video within 2 hours of delivery showing the unopened bag. We issue an immediate replacement or full refund." },
+    { heading: "Hardware Returns", body: "Canister filters, heaters, and air pumps can be returned or exchanged within 10 days in original packaging with intact warranty cards." },
   ],
   privacy: [
-    { heading: "Information We Collect", body: "We collect personal information you provide when placing an order, creating an account, or subscribing to our newsletter." },
-    { heading: "How We Use Your Information", body: "Your information is used to process orders, provide customer service, and send updates about new products (with your consent)." },
-    { heading: "Data Protection", body: "We implement appropriate security measures to protect your personal information. Payment data is encrypted and processed through secure gateways." },
-    { heading: "Your Rights", body: "You have the right to access, correct, or delete your personal information at any time. Contact privacy@danywens.com for any requests." },
+    { heading: "Information We Collect", body: "We collect shipping details and phone numbers exclusively to coordinate express air transit and WhatsApp tracking updates." },
+    { heading: "Data Protection", body: "All payment transactions are encrypted and secured through Razorpay." },
   ],
   terms: [
-    { heading: "General", body: "By accessing and using the DANYWENS website, you agree to these terms of service. We reserve the right to modify these terms at any time." },
-    { heading: "Products", body: "All products are subject to availability. We reserve the right to limit quantities or cancel orders at our discretion." },
-    { heading: "Intellectual Property", body: "All content on this website including images, text, logos, and designs is the property of DANYWENS and protected by copyright laws." },
-    { heading: "Limitation of Liability", body: "DANYWENS shall not be liable for any indirect, incidental, or consequential damages arising from your use of our website or products." },
+    { heading: "Live Livestock Agreement", body: "Livestock deliveries require recipient availability upon first courier delivery attempt to maintain warranty validity." },
+    { heading: "Custom Aquascape Projects", body: "Custom tank installations and planted projects require a 50% advance for hardscape fabrication and botanical procurement." },
   ],
   faq: [
-    { q: "How long does shipping take?", a: "Standard shipping takes 3-5 business days. International orders typically arrive within 7-14 business days." },
-    { q: "What is your return policy?", a: "We accept returns within 30 days of delivery. Items must be unworn, unwashed, and in original packaging with tags attached." },
-    { q: "Do you offer exchanges?", a: "Yes, we offer free exchanges for different sizes or colours. Contact us within 30 days of delivery." },
-    { q: "How do your sizes run?", a: "Our pieces are designed with an oversized fit. We recommend going true to size for our intended silhouette." },
-    { q: "What materials do you use?", a: "We use premium heavyweight cotton (270-450gsm), custom French terry, and technical fabrics sourced from certified mills." },
-    { q: "Do you ship internationally?", a: "Yes, we ship worldwide. International shipping rates and duties are calculated at checkout." },
+    { q: "How do live fish survive during courier transit?", a: "Fish are packed in heavy-duty triple bags injected with pure medical oxygen, treated with gentle water calmative, and housed inside thick EPS insulated thermocol boxes with 48h climate packs." },
+    { q: "What should I do when my fish box arrives?", a: "Float the sealed bag in your aquarium for 15-20 minutes to equalize water temperature, then gradually drip acclimate with your tank water before netting the fish into the tank. Never pour transport water into your aquarium." },
+    { q: "Do you ship across India?", a: "Yes, we ship to all major pincodes across India via express air cargo routes with live arrival assurance." },
+    { q: "Are the plants pest and snail free?", a: "Yes, our plants are grown in sterile tissue-culture laboratory conditions or treated in clean holding tanks free of planaria, hydra, and nuisance snails." },
+    { q: "Can I get custom aquascaping design for my home?", a: "Yes! Our certified aquascaping team designs bespoke nature aquariums and terrariums. Contact us via WhatsApp for a consultation." },
   ],
   contact: {
-    subtitle: "We'd love to hear from you. Fill out the form below and we'll get back to you within 24 hours.",
-    email: "hello@danywens.com",
-    phone: "",
-    address: "",
+    subtitle: "Have questions about species compatibility, live shipping, or custom aquascapes? Our certified aquarists are here to assist.",
+    email: "hello@cbraqua.com",
+    phone: "+91 98765 43210",
+    address: "CBR AQUA CULTURE Studio & Quarantine Facility, Hyderabad & Bangalore, India",
   },
 };
 
@@ -170,9 +163,9 @@ export function AdminProvider({ children }: { children: ReactNode }) {
   const [adminOrders, setAdminOrders] = useState<any[]>([]);
   const [adminCustomers, setAdminCustomers] = useState<any[]>([]);
   const [siteSettings, setSiteSettings] = useState<SiteSettings>({
-    brandName: "DANYWENS",
-    marqueeText: "NEW DROP — FREE SHIPPING ON ORDERS OVER ₹10,000 — DANYWENS ARCHIVE — LIMITED EDITION — ",
-    footerTagline: "Contemporary streetwear for the modern archive.",
+    brandName: "CBR AQUA",
+    marqueeText: "LIVE ARRIVAL GUARANTEE — CURATED ORNAMENTAL FISH & AQUASCAPES — ALL-INDIA OXYGEN PACKED SHIPPING — FREE DELIVERY OVER ₹1,999 — ",
+    footerTagline: "CBR AQUA CULTURE curates rare ornamental fish, koi, planted aquascapes, terrariums, and pro-grade aquarium hardware.",
     offerDiscountPercent: 0,
     gstPercent: 0,
     sizeChartImage: "",
@@ -182,8 +175,8 @@ export function AdminProvider({ children }: { children: ReactNode }) {
     categories: [],
     pageContent: DEFAULT_PAGE_CONTENT,
     heroVideoUrl: "",
-    shippingText: "Packed within 24 hours. Free delivery pan-India. Dispatches next day for in-stock products.",
-    washcareText: "Dry clean recommended. Wash dark colors separately and avoid direct ironing on prints.",
+    shippingText: "Packed with medical-grade oxygen in temperature-regulated insulated thermocol boxes with 48h thermal packs. 100% Live Arrival Guaranteed pan-India.",
+    washcareText: "Acclimate livestock by floating bags for 20 mins and slow drip transfer before introducing to tank.",
   });
 
   useEffect(() => {

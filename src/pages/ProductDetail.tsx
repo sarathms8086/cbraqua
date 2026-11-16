@@ -400,201 +400,146 @@ const ProductDetail = () => {
 
           {/* Info */}
           <aside className="lg:sticky lg:top-24">
-            <div className="rounded-[10px] border border-black/10 bg-white p-4 shadow-sm md:p-5">
+            <div className="rounded-2xl border border-[#172838] bg-[#0c1622] p-5 shadow-xl md:p-6 text-white">
               <div className="mb-4 flex items-start justify-between gap-4">
                 <div>
-                  <div className="mb-2 flex items-center gap-2 text-[11px] text-muted-foreground">
-                    <Link to="/" className="hover:text-foreground transition-colors">Home</Link>
+                  <div className="mb-2 flex items-center gap-2 text-[11px] text-cyan-400 font-semibold tracking-wider uppercase">
+                    <Link to="/" className="hover:text-cyan-300 transition-colors">Home</Link>
                     <span>/</span>
-                    <Link to="/shop" className="hover:text-foreground transition-colors">Shop</Link>
+                    <Link to="/shop" className="hover:text-cyan-300 transition-colors">Shop</Link>
+                    <span>/</span>
+                    <span className="text-slate-400 capitalize">{product.category?.replace(/-/g, " ")}</span>
                   </div>
-                  <h1 className="flex items-center gap-1.5 text-lg font-bold leading-tight tracking-tight">
+                  <h1 className="text-xl sm:text-2xl font-extrabold text-white leading-tight">
                     {product.name}
-                    <Bookmark className="h-4 w-4 fill-muted text-muted" />
                   </h1>
-                  <p className="mt-1 text-sm font-semibold text-muted-foreground">
-                    {formatPrice(product.price)}
-                  </p>
+                  <div className="flex items-center gap-3 mt-2">
+                    <span className="text-2xl font-extrabold text-[#00c8f8]">
+                      {formatPrice(product.price)}
+                    </span>
+                    <span className="text-xs text-slate-400">
+                      {(product as any).stock || 25} in stock
+                    </span>
+                  </div>
                 </div>
-                {(() => {
-                  const typeKey = product.productType
-                    ? `${product.category}:${product.productType.toLowerCase().replace(/\s+/g, "-")}`
-                    : null;
-                  const hasChart =
-                    (typeKey && siteSettings.sizeChartImages?.[typeKey]) ||
-                    siteSettings.sizeChartImages?.[product.category] ||
-                    siteSettings.sizeChartImage;
-                  return hasChart;
-                })() && (
-                  <button
-                    onClick={() => setSizeChartOpen(true)}
-                    className="inline-flex items-center gap-1 rounded-md bg-black/5 px-3 py-1.5 text-[11px] font-semibold hover:bg-black/10"
-                  >
-                    <Ruler className="h-3.5 w-3.5" />
-                    Size Guide
-                  </button>
-                )}
               </div>
 
-              {product.colors.length > 1 && (
-                <div className="mb-4">
-                  <p className="mb-2 text-[11px] font-semibold uppercase tracking-[0.12em] text-muted-foreground">
-                    Colour — {currentColor.name}
-                    {currentColor.soldOut && (
-                      <span className="ml-1.5 text-[10px] font-semibold text-red-500">Sold Out</span>
-                    )}
+              {/* Sizes / Options */}
+              {product.sizes && product.sizes.length > 0 && (
+                <div className="mb-5">
+                  <p className="text-[11px] font-bold uppercase tracking-wider text-slate-300 mb-2">
+                    Select Variant / Option
                   </p>
-                  <div className="flex gap-2">
-                    {product.colors.map((c, i) => (
+                  <div className="flex flex-wrap gap-2">
+                    {product.sizes.map((size) => (
                       <button
-                        key={c.name}
-                        onClick={() => setColorIndex(i)}
-                        className={`relative h-8 w-8 rounded-full border-2 transition-all duration-300 hover:scale-110 active:scale-95 ${
-                          i === colorIndex ? "border-foreground" : "border-white"
-                        } ${c.soldOut ? "opacity-50" : ""}`}
-                        style={{ backgroundColor: c.hex }}
-                        aria-label={`${c.name}${c.soldOut ? " (Sold Out)" : ""}`}
+                        key={size}
+                        onClick={() => {
+                          setSelectedSize(size);
+                          setSizeError(false);
+                        }}
+                        className={`px-4 py-2 rounded-xl text-xs font-semibold transition-all ${
+                          selectedSize === size
+                            ? "bg-[#00c8f8] text-slate-950 font-bold shadow-md shadow-cyan-500/20"
+                            : "bg-[#111e2c] border border-[#1d3347] text-slate-300 hover:text-white hover:border-cyan-400/50"
+                        }`}
                       >
-                        {c.soldOut && (
-                          <span className="absolute inset-0 flex items-center justify-center">
-                            <span className="block w-[1.5px] h-full rotate-45 bg-white/80 rounded-full" />
-                          </span>
-                        )}
+                        {size}
                       </button>
                     ))}
                   </div>
                 </div>
               )}
 
-              <div className="mb-4">
-                <p className="sr-only">Size</p>
-                {sizeError && (
-                  <p className="mb-2 text-xs font-semibold text-sold-out">
-                    Please select a size
-                  </p>
-                )}
-                <div className="grid grid-cols-2 gap-2 sm:grid-cols-4 lg:grid-cols-2">
-                  {product.sizes.map((size) => {
-                    const sizeQty = currentColor.sizeStock?.[size];
-                    const hasStockInfo = sizeQty != null;
-                    const isSizeSoldOut =
-                      currentColor.soldOutSizes?.includes(size) || (hasStockInfo && sizeQty <= 0);
-                    const isLowStock = hasStockInfo && sizeQty > 0 && sizeQty <= 3;
-                    return (
-                      <div key={size} className="flex flex-col items-center gap-0.5">
-                        <button
-                          onClick={() => {
-                            if (isSizeSoldOut) return;
-                            setSelectedSize(size);
-                            setSizeError(false);
-                          }}
-                          disabled={isSizeSoldOut}
-                          className={`w-full min-h-12 rounded-full border text-sm font-semibold transition-all duration-300 ${
-                            isSizeSoldOut
-                              ? "cursor-not-allowed border-black/10 bg-muted text-muted-foreground/40 relative overflow-hidden"
-                              : selectedSize === size
-                              ? "border-black bg-black text-white shadow-lg hover:scale-[1.02] active:scale-[0.98]"
-                              : "border-black/10 bg-white hover:border-black hover:scale-[1.02] active:scale-[0.98]"
-                          }`}
-                        >
-                          {isSizeSoldOut ? (
-                            <span className="flex flex-col items-center leading-tight">
-                              <span className="line-through text-xs">{size}</span>
-                            </span>
-                          ) : size}
-                        </button>
-                        {isSizeSoldOut && (
-                          <span className="text-[9px] font-semibold uppercase tracking-widest text-muted-foreground/60">Sold Out</span>
-                        )}
-                        {!isSizeSoldOut && isLowStock && (
-                          <span className="text-[9px] font-semibold uppercase tracking-widest text-destructive/80">Only {sizeQty} left</span>
-                        )}
-                      </div>
-                    );
-                  })}
-                </div>
+              {/* Action Buttons */}
+              <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2 mt-4">
+                <button
+                  onClick={handleAddToBag}
+                  className="min-h-12 rounded-full bg-[#00c8f8] hover:bg-cyan-300 active:scale-95 text-slate-950 text-xs font-bold uppercase tracking-wider transition-all shadow-lg shadow-cyan-500/25 flex items-center justify-center gap-2"
+                >
+                  Add to Cart
+                </button>
+                <button
+                  onClick={() => {
+                    handleAddToBag();
+                    window.location.href = "/checkout";
+                  }}
+                  className="min-h-12 rounded-full bg-[#111e2c] hover:bg-[#162738] border border-[#1d3347] hover:border-cyan-400 text-white text-xs font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-2"
+                >
+                  Buy Now
+                </button>
               </div>
 
-              <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
-                {(() => {
-                  const isColorSoldOut = currentColor.soldOut;
-                  const isSoldOut = product.soldOut || isColorSoldOut;
-                  return (
-                    <>
-                      <button
-                        onClick={handleAddToBag}
-                        disabled={isSoldOut}
-                        className={`min-h-14 rounded-full border border-black/10 text-xs font-semibold uppercase tracking-[0.12em] transition-all duration-300 active:scale-[0.98] ${
-                          isSoldOut
-                            ? "bg-muted text-muted-foreground cursor-not-allowed"
-                            : "bg-white text-black hover:border-black"
-                        }`}
-                      >
-                        {isSoldOut ? "Sold Out" : "Add to Bag"}
-                      </button>
-                      <button
-                        onClick={handleAddToBag}
-                        disabled={isSoldOut}
-                        className="min-h-14 rounded-full bg-black text-xs font-semibold uppercase tracking-[0.12em] text-white transition-all duration-300 hover:bg-black/85 active:scale-[0.98] disabled:bg-muted disabled:text-muted-foreground"
-                      >
-                        {isSoldOut ? "Sold Out" : "Buy Now"}
-                      </button>
-                    </>
-                  );
-                })()}
+              {/* Live Arrival Guarantee Callout */}
+              <div className="mt-5 p-3.5 rounded-xl bg-[#08121c] border border-[#172838] flex items-center gap-3">
+                <div className="w-8 h-8 rounded-full bg-[#00d796]/10 border border-[#00d796]/30 flex items-center justify-center shrink-0">
+                  <span className="w-2 h-2 rounded-full bg-[#00d796]" />
+                </div>
+                <div className="text-xs">
+                  <span className="font-bold text-white block">100% Live Arrival Guaranteed</span>
+                  <span className="text-slate-400 text-[11px]">Shipped in insulated thermocol with medical-grade oxygen.</span>
+                </div>
               </div>
             </div>
 
             <Tabs
               defaultValue="details"
-              className="mt-4 rounded-[10px] border border-black/10 bg-white p-4 shadow-sm md:p-5"
+              className="mt-4 rounded-2xl border border-[#172838] bg-[#0c1622] p-4 shadow-xl text-white"
             >
-              <TabsList className="grid h-auto w-full grid-cols-3 rounded-none border-b border-black/20 bg-transparent p-0">
+              <TabsList className="grid h-auto w-full grid-cols-3 rounded-none border-b border-[#172838] bg-transparent p-0">
                 <TabsTrigger
                   value="details"
-                  className="rounded-none border-b-2 border-transparent py-3 text-xs font-bold data-[state=active]:border-black data-[state=active]:bg-transparent data-[state=active]:shadow-none"
+                  className="rounded-none border-b-2 border-transparent py-3 text-xs font-bold text-slate-400 data-[state=active]:border-[#00c8f8] data-[state=active]:text-white data-[state=active]:bg-transparent"
                 >
-                  Details & Description
+                  Specifications
                 </TabsTrigger>
                 <TabsTrigger
-                  value="washcare"
-                  className="rounded-none border-b-2 border-transparent py-3 text-xs font-bold data-[state=active]:border-black data-[state=active]:bg-transparent data-[state=active]:shadow-none"
+                  value="care"
+                  className="rounded-none border-b-2 border-transparent py-3 text-xs font-bold text-slate-400 data-[state=active]:border-[#00c8f8] data-[state=active]:text-white data-[state=active]:bg-transparent"
                 >
-                  Washcare
+                  Acclimation
                 </TabsTrigger>
                 <TabsTrigger
                   value="shipping"
-                  className="rounded-none border-b-2 border-transparent py-3 text-xs font-bold data-[state=active]:border-black data-[state=active]:bg-transparent data-[state=active]:shadow-none"
+                  className="rounded-none border-b-2 border-transparent py-3 text-xs font-bold text-slate-400 data-[state=active]:border-[#00c8f8] data-[state=active]:text-white data-[state=active]:bg-transparent"
                 >
-                  Shipping
+                  Live Delivery
                 </TabsTrigger>
               </TabsList>
 
-              <TabsContent value="details" className="mt-4 max-h-[360px] overflow-y-auto px-3 pb-2 text-sm">
+              <TabsContent value="details" className="mt-4 px-2 pb-2 text-xs space-y-3">
                 {details.length > 0 && (
-                  <div className="mb-4 space-y-1">
-                    <h2 className="text-xs font-bold">Details</h2>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                     {details.map((d) => (
-                      <p key={d.label} className="text-muted-foreground">
-                        {d.value}
-                      </p>
+                      <div key={d.label} className="p-2.5 rounded-xl bg-[#070e15] border border-[#172838]">
+                        <span className="text-[10px] font-bold text-cyan-400 uppercase tracking-wider block">{d.label}</span>
+                        <span className="text-xs text-slate-200 mt-0.5 block">{d.value}</span>
+                      </div>
                     ))}
                   </div>
                 )}
                 {product.description ? (
-                  <>
-                    <h2 className="mb-2 text-xs font-bold">Description</h2>
-                    <p className="leading-relaxed text-muted-foreground whitespace-pre-line">{product.description}</p>
-                  </>
+                  <div className="mt-3">
+                    <span className="text-[10px] font-bold text-cyan-400 uppercase tracking-wider block mb-1">Description</span>
+                    <p className="leading-relaxed text-slate-300 whitespace-pre-line">{product.description}</p>
+                  </div>
                 ) : null}
               </TabsContent>
 
-              <TabsContent value="washcare" className="mt-4 px-3 pb-2 text-sm text-muted-foreground">
-                <p className="whitespace-pre-line">{product.washcareText || siteSettings.washcareText || "Dry clean recommended. Wash dark colors separately and avoid direct ironing on prints."}</p>
+              <TabsContent value="care" className="mt-4 px-2 pb-2 text-xs text-slate-300 space-y-2">
+                <p className="font-semibold text-white">Acclimation Protocol for Live Animals &amp; Plants:</p>
+                <ol className="list-decimal list-inside space-y-1.5 text-slate-400 text-xs">
+                  <li>Float unopened transport bag in your aquarium for 15-20 minutes to equalize temperature.</li>
+                  <li>Gradually add 1/4 cup of tank water into the transport bag every 5 minutes over 30 minutes (drip acclimation recommended).</li>
+                  <li>Net the livestock into your aquarium. Never pour transport water into your display tank.</li>
+                </ol>
               </TabsContent>
 
-              <TabsContent value="shipping" className="mt-4 px-3 pb-2 text-sm text-muted-foreground">
-                <p className="whitespace-pre-line">{product.shippingText || siteSettings.shippingText || "Packed within 24 hours. Free delivery pan-India. Dispatches next day for in-stock products."}</p>
+              <TabsContent value="shipping" className="mt-4 px-2 pb-2 text-xs text-slate-300 space-y-2">
+                <p className="font-semibold text-white">Live Arrival Guarantee (Pan-India):</p>
+                <p className="leading-relaxed text-slate-400">
+                  {product.shippingText || siteSettings.shippingText || "Packed with medical-grade oxygen in temperature-regulated insulated thermocol boxes with 48h thermal packs. 100% Live Arrival Guaranteed pan-India."}
+                </p>
               </TabsContent>
             </Tabs>
           </aside>

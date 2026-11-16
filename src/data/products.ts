@@ -1,28 +1,3 @@
-import hoodieBlack from "@/assets/dany-wens/product-hoodie-black.jpg";
-import hoodieBrown from "@/assets/dany-wens/product-hoodie-brown.jpg";
-import teeCream from "@/assets/dany-wens/product-tee-cream.jpg";
-import teeBlack from "@/assets/dany-wens/product-tee-black.jpg";
-import cargoOlive from "@/assets/dany-wens/product-cargo-olive.jpg";
-import crewGrey from "@/assets/dany-wens/product-crew-grey.jpg";
-import crewWhite from "@/assets/dany-wens/product-crew-white.jpg";
-import joggerBlack from "@/assets/dany-wens/product-jogger-black.jpg";
-import jacketNavy from "@/assets/dany-wens/product-jacket-navy.jpg";
-import tankWhite from "@/assets/dany-wens/product-tank-white.jpg";
-import shortsBeige from "@/assets/dany-wens/product-shorts-beige.jpg";
-import capBlack from "@/assets/dany-wens/product-cap-black.jpg";
-import crewNeck1 from "@/assets/dany-wens/crew-neck-1.jpg";
-import crewNeck2 from "@/assets/dany-wens/crew-neck-2.jpg";
-import crewNeck3 from "@/assets/dany-wens/crew-neck-3.jpg";
-import henleyHalf1 from "@/assets/dany-wens/henley-half-1.jpg";
-import henleyHalf2 from "@/assets/dany-wens/henley-half-2.jpg";
-import henleyHalf3 from "@/assets/dany-wens/henley-half-3.jpg";
-import henleyFull1 from "@/assets/dany-wens/henley-full-1.jpg";
-import henleyFull2 from "@/assets/dany-wens/henley-full-2.jpg";
-import henleyFull3 from "@/assets/dany-wens/henley-full-3.jpg";
-import freeSize1 from "@/assets/dany-wens/free-size-1.jpg";
-import freeSize2 from "@/assets/dany-wens/free-size-2.jpg";
-import freeSize3 from "@/assets/dany-wens/free-size-3.jpg";
-
 export interface ProductColor {
   name: string;
   hex: string;
@@ -45,336 +20,324 @@ export interface Product {
   description: string;
   details: { label: string; value: string }[];
   isNew?: boolean;
+  featured?: boolean;
+  stock?: number;
   soldOut?: boolean;
   soldOutSizes?: string[];
   collectionId?: string;
-  /** Overrides the site-wide shipping text when set */
   shippingText?: string | null;
-  /** Overrides the site-wide washcare text when set */
   washcareText?: string | null;
 }
 
+export const CATEGORIES = [
+  { id: "all", label: "All products" },
+  { id: "air-pumps", label: "Air Pumps" },
+  { id: "aquarium-accessories", label: "Aquarium Accessories" },
+  { id: "aquarium-plants", label: "Aquarium Plants" },
+  { id: "betta-fish", label: "Betta Fish" },
+  { id: "bristlenose-plecos", label: "Bristlenose Plecos" },
+  { id: "filters", label: "Filters" },
+  { id: "fish-food", label: "Fish Food" },
+  { id: "heaters", label: "Heaters" },
+  { id: "koi-fish", label: "Koi Fish" },
+  { id: "ornamental-fish", label: "Ornamental Fish" },
+  { id: "paradise-gourami", label: "Paradise Gourami" },
+  { id: "turtles", label: "Turtles" },
+];
+
 export const products: Product[] = [
   {
-    id: "dw-1",
-    name: "Classic Crew Neck",
-    slug: "classic-crew-neck",
-    price: 85,
-    category: "t-shirts",
-    colors: [
-      { name: "White", hex: "#ffffff", image: crewNeck1 },
-      { name: "Black", hex: "#1a1a1a", image: crewNeck2 },
-      { name: "Grey", hex: "#9e9e9e", image: crewNeck3 },
-    ],
-    sizes: ["S", "M", "L", "XL", "XXL"],
-    description: "Premium cotton crew neck t-shirt. Breathable fabric with a structured fit.",
-    details: [
-      { label: "Composition", value: "100% Pima Cotton" },
-      { label: "Weight", value: "240gsm" },
-      { label: "Fit", value: "Regular" },
-      { label: "Care", value: "Machine wash cold" },
-    ],
+    id: "cbr-1",
+    name: "Premium Colour-Enhancing Pellets (250g)",
+    slug: "premium-colour-enhancing-pellets",
+    price: 490,
+    category: "fish-food",
+    stock: 60,
+    featured: true,
     isNew: true,
+    colors: [
+      {
+        name: "Slow Sinking Pellets",
+        hex: "#d97706",
+        image: "https://images.unsplash.com/photo-1520302630591-fd1c66edc19d?auto=format&fit=crop&w=800&q=80",
+        images: [
+          "https://images.unsplash.com/photo-1546026423-cc4642628d2b?auto=format&fit=crop&w=800&q=80",
+        ],
+      },
+    ],
+    sizes: ["100g", "250g", "500g"],
+    description: "Formulated with wild-harvested Arctic krill, organic spirulina, and astaxanthin to bring out vivid natural coloration in live ornamental fish within 14 days.",
+    details: [
+      { label: "Protein Content", value: "48% Crude Marine Protein" },
+      { label: "Pellet Size", value: "1.5mm Slow Sinking" },
+      { label: "Key Ingredients", value: "Krill, Spirulina, Astaxanthin, Garlic Oil" },
+      { label: "Suitable For", value: "Betta, Tetras, Discus, Guppies, Cichlids" },
+    ],
+    shippingText: "Packed fresh with moisture-seal. Dispatches within 24 hours.",
+    washcareText: "Store in a cool, dry place away from direct sunlight.",
   },
   {
-    id: "dw-2",
-    name: "Henley Half Sleeve",
-    slug: "henley-half-sleeve",
-    price: 95,
-    category: "t-shirts",
+    id: "cbr-2",
+    name: "Submersible Heater 200W",
+    slug: "submersible-heater-200w",
+    price: 850,
+    category: "heaters",
+    stock: 18,
+    featured: false,
     colors: [
-      { name: "Navy", hex: "#1B2A4A", image: henleyHalf1 },
-      { name: "Olive", hex: "#556B2F", image: henleyHalf2 },
-      { name: "Charcoal", hex: "#333333", image: henleyHalf3 },
+      {
+        name: "Standard Black Quartz",
+        hex: "#1e293b",
+        image: "https://images.unsplash.com/photo-1584282479905-24d1933a32dc?auto=format&fit=crop&w=800&q=80",
+      },
     ],
-    sizes: ["S", "M", "L", "XL", "XXL"],
-    description: "Versatile henley with a three-button placket. Perfect for layering.",
+    sizes: ["100W", "200W", "300W"],
+    description: "High-precision thermostatic submersible heater built from explosion-proof quartz glass. Maintains constant water temperatures essential for sensitive tropical fish.",
     details: [
-      { label: "Composition", value: "95% Cotton, 5% Elastane" },
-      { label: "Fit", value: "Slim Fit" },
-      { label: "Care", value: "Machine wash cold" },
+      { label: "Wattage", value: "200W (Ideal for 120L - 250L tanks)" },
+      { label: "Temperature Range", value: "18°C – 34°C (±0.5°C accuracy)" },
+      { label: "Safety", value: "Automatic dry-burn protection shutoff" },
+      { label: "Submersion", value: "IP68 100% Fully Waterproof" },
     ],
+    shippingText: "Insulated shockproof bubble packaging.",
+    washcareText: "Always unplug and allow to cool for 15 minutes before tank maintenance.",
+  },
+  {
+    id: "cbr-3",
+    name: "Silent Air Pump — Dual Outlet",
+    slug: "silent-air-pump-dual-outlet",
+    price: 1100,
+    category: "air-pumps",
+    stock: 25,
+    featured: false,
+    colors: [
+      {
+        name: "Matte Black",
+        hex: "#0f172a",
+        image: "https://images.unsplash.com/photo-1520302630591-fd1c66edc19d?auto=format&fit=crop&w=800&q=80",
+      },
+    ],
+    sizes: ["Single Outlet", "Dual Outlet"],
+    description: "Ultra-quiet diaphragm air pump operating below 28dB. Delivers high dissolved oxygen levels for dense planted aquascapes and populated community tanks.",
+    details: [
+      { label: "Flow Rate", value: "4.5 Litres/min (Adjustable dial)" },
+      { label: "Noise Level", value: "< 28 dB Ultra-Quiet Acoustic Chamber" },
+      { label: "Power", value: "4W Low Energy Consumption" },
+      { label: "Included", value: "2x Check Valves, 2m Air Tubing" },
+    ],
+  },
+  {
+    id: "cbr-4",
+    name: "Sunsun HW-303B Canister Filter",
+    slug: "sunsun-hw-303b-canister-filter",
+    price: 5800,
+    category: "filters",
+    stock: 10,
+    featured: true,
+    colors: [
+      {
+        name: "Classic White & Grey",
+        hex: "#f8fafc",
+        image: "https://images.unsplash.com/photo-1546026423-cc4642628d2b?auto=format&fit=crop&w=800&q=80",
+      },
+    ],
+    sizes: ["Standard", "With 9W UV Sterilizer"],
+    description: "Heavy-duty 3-stage external canister filtration system with integrated 9W UV sterilizer to eliminate green water, pathogens, and suspended algae.",
+    details: [
+      { label: "Pump Flow Rate", value: "1,400 L/H (For tanks up to 400L)" },
+      { label: "UV Clarifier", value: "Built-in 9W Ultraviolet sterilizer bulb" },
+      { label: "Baskets", value: "3 Large modular media capacity trays" },
+      { label: "Priming", value: "Single-button easy self-priming pump" },
+    ],
+  },
+  {
+    id: "cbr-5",
+    name: "Anubias Nana — Aquarium Plant",
+    slug: "anubias-nana-aquarium-plant",
+    price: 250,
+    category: "aquarium-plants",
+    stock: 40,
+    featured: false,
+    colors: [
+      {
+        name: "Lush Green",
+        hex: "#15803d",
+        image: "https://images.unsplash.com/photo-1584282479905-24d1933a32dc?auto=format&fit=crop&w=800&q=80",
+      },
+    ],
+    sizes: ["Bare Root Bunch", "Wood Mounted"],
+    description: "Hardy, slow-growing epiphytic plant with deep green leathery leaves. Thrives in low-tech setups attached to driftwood or dragon stone.",
+    details: [
+      { label: "Care Level", value: "Very Easy (Beginner Friendly)" },
+      { label: "Light Requirement", value: "Low to Moderate" },
+      { label: "CO2 Need", value: "Not required" },
+      { label: "Placement", value: "Attach rhizome to rock or wood (do not bury rhizome in substrate)" },
+    ],
+  },
+  {
+    id: "cbr-6",
+    name: "Red-Eared Slider Turtle",
+    slug: "red-eared-slider-turtle",
+    price: 1200,
+    category: "turtles",
+    stock: 5,
+    featured: false,
+    colors: [
+      {
+        name: "Natural Olive Shell",
+        hex: "#4d7c0f",
+        image: "https://images.unsplash.com/photo-1437622368342-7a3d73a34c8f?auto=format&fit=crop&w=800&q=80",
+      },
+    ],
+    sizes: ["Hatchling (2-3 inch)", "Juvenile (4 inch)"],
+    description: "Playful and active aquatic turtle, captive-bred with high shell symmetry and radiant red ear stripes. Fully acclimated and feeding vigorously on floating pellets.",
+    details: [
+      { label: "Lifespan", value: "20 - 30+ years with proper basking" },
+      { label: "Diet", value: "Commercial turtle sticks, dried shrimp, aquatic greens" },
+      { label: "Habitat Needs", value: "Aquarium with basking dock, UVB lamp & filtration" },
+      { label: "Live Delivery", value: "100% Live Arrival Guarantee with thermal packs" },
+    ],
+  },
+  {
+    id: "cbr-7",
+    name: "Halfmoon King Betta — Royal Blue",
+    slug: "halfmoon-king-betta-royal-blue",
+    price: 650,
+    category: "betta-fish",
+    stock: 15,
+    featured: true,
     isNew: true,
-  },
-  {
-    id: "dw-3",
-    name: "Henley Full Sleeve",
-    slug: "henley-full-sleeve",
-    price: 110,
-    category: "t-shirts",
     colors: [
-      { name: "Burgundy", hex: "#800020", image: henleyFull1 },
-      { name: "Sand", hex: "#C2B280", image: henleyFull2 },
-      { name: "Forest", hex: "#228B22", image: henleyFull3 },
+      {
+        name: "Royal Blue & Indigo",
+        hex: "#1d4ed8",
+        image: "https://images.unsplash.com/photo-1524704654690-b56c05c78a00?auto=format&fit=crop&w=800&q=80",
+      },
     ],
-    sizes: ["S", "M", "L", "XL", "XXL"],
-    description: "Full sleeve henley for cooler days. Soft textured fabric.",
+    sizes: ["Show Grade Male", "Selected Female"],
+    description: "Exquisite show-grade Halfmoon Betta featuring a 180-degree caudal fin spread. Quarantined for 14 days and feeding enthusiastically on micro-pellets.",
     details: [
-      { label: "Composition", value: "100% Organic Cotton" },
-      { label: "Fit", value: "Tailored" },
-      { label: "Care", value: "Machine wash cold" },
-    ],
-    isNew: true,
-  },
-  {
-    id: "dw-4",
-    name: "Free Size Oversized Tee",
-    slug: "free-size-oversized-tee",
-    price: 75,
-    category: "t-shirts",
-    colors: [
-      { name: "Off White", hex: "#FAF9F6", image: freeSize1 },
-      { name: "Slate", hex: "#708090", image: freeSize2 },
-      { name: "Mocha", hex: "#A38068", image: freeSize3 },
-    ],
-    sizes: ["One Size"],
-    description: "Ultra-oversized fit designed for maximum comfort. One size fits most.",
-    details: [
-      { label: "Composition", value: "100% Heavyweight Cotton" },
-      { label: "Weight", value: "300gsm" },
-      { label: "Fit", value: "Oversized" },
-      { label: "Care", value: "Machine wash cold" },
-    ],
-    isNew: true,
-  },
-  {
-    id: "1",
-    name: "Heavyweight Hoodie",
-    slug: "heavyweight-hoodie",
-    price: 145,
-    category: "hoodies",
-    colors: [
-      { name: "Black", hex: "#1a1a1a", image: hoodieBlack },
-      { name: "Brown", hex: "#8B4513", image: hoodieBrown },
-    ],
-    sizes: ["XS", "S", "M", "L", "XL", "XXL"],
-    description: "450gsm heavyweight French terry. Oversized fit with dropped shoulders and kangaroo pocket.",
-    details: [
-      { label: "Composition", value: "100% Cotton" },
-      { label: "Weight", value: "450gsm" },
-      { label: "Fit", value: "Oversized" },
-      { label: "Care", value: "Machine wash cold" },
-    ],
-    isNew: true,
-  },
-  {
-    id: "2",
-    name: "Oversized T-Shirt",
-    slug: "oversized-tshirt",
-    price: 65,
-    category: "t-shirts",
-    colors: [
-      { name: "Cream", hex: "#F5F5DC", image: teeCream },
-      { name: "Black", hex: "#1a1a1a", image: teeBlack },
-    ],
-    sizes: ["XS", "S", "M", "L", "XL", "XXL"],
-    description: "270gsm heavyweight cotton. Boxy oversized fit with reinforced collar.",
-    details: [
-      { label: "Composition", value: "100% Cotton" },
-      { label: "Weight", value: "270gsm" },
-      { label: "Fit", value: "Oversized" },
-      { label: "Care", value: "Machine wash cold" },
-    ],
-    isNew: true,
-  },
-  {
-    id: "3",
-    name: "Cargo Pant",
-    slug: "cargo-pant",
-    price: 125,
-    category: "bottoms",
-    colors: [
-      { name: "Olive", hex: "#556B2F", image: cargoOlive },
-    ],
-    sizes: ["28", "30", "32", "34", "36", "38"],
-    description: "Relaxed fit cargo pant with six-pocket design. Durable cotton twill.",
-    details: [
-      { label: "Composition", value: "100% Cotton Twill" },
-      { label: "Weight", value: "320gsm" },
-      { label: "Fit", value: "Relaxed" },
-      { label: "Care", value: "Machine wash cold" },
+      { label: "Fin Spread", value: "180° Perfect Halfmoon D-Form" },
+      { label: "Temperature", value: "24°C - 28°C" },
+      { label: "Min Tank Size", value: "15 Litres (avoid strong water currents)" },
+      { label: "Temperament", value: "Solitary (1 male per aquarium)" },
     ],
   },
   {
-    id: "4",
-    name: "Crewneck Sweatshirt",
-    slug: "crewneck-sweatshirt",
-    price: 120,
-    category: "sweatshirts",
+    id: "cbr-8",
+    name: "Super Red Bristlenose Pleco (L144)",
+    slug: "super-red-bristlenose-pleco-l144",
+    price: 950,
+    category: "bristlenose-plecos",
+    stock: 12,
+    featured: false,
     colors: [
-      { name: "Grey Marl", hex: "#9e9e9e", image: crewGrey },
-      { name: "White", hex: "#ffffff", image: crewWhite },
+      {
+        name: "Solid Deep Red",
+        hex: "#b91c1c",
+        image: "https://images.unsplash.com/photo-1535591273668-578e31182c4f?auto=format&fit=crop&w=800&q=80",
+      },
     ],
-    sizes: ["XS", "S", "M", "L", "XL", "XXL"],
-    description: "400gsm heavyweight French terry crewneck. Regular fit with ribbed cuffs.",
+    sizes: ["2.0 inch Juvenile", "3.5 inch Sub-Adult"],
+    description: "Vibrant solid red dwarf pleco that stays compact and peaceful. Unmatched workhorse for grazing brown diatom and soft green algae off plants and glass.",
     details: [
-      { label: "Composition", value: "80% Cotton, 20% Polyester" },
-      { label: "Weight", value: "400gsm" },
-      { label: "Fit", value: "Regular" },
-      { label: "Care", value: "Machine wash cold" },
+      { label: "Maximum Size", value: "4 to 5 inches (Dwarf species)" },
+      { label: "Diet", value: "Spirulina wafers, blanched zucchini, driftwood lignin" },
+      { label: "Behavior", value: "Peaceful bottom dweller, plant-safe" },
+      { label: "Water Parameters", value: "pH 6.5 - 7.5, Temp 23°C - 27°C" },
     ],
   },
   {
-    id: "5",
-    name: "Jogger Pant",
-    slug: "jogger-pant",
-    price: 110,
-    category: "bottoms",
+    id: "cbr-9",
+    name: "Japanese Kohaku Premium Koi (6-8 inch)",
+    slug: "japanese-kohaku-koi",
+    price: 2400,
+    category: "koi-fish",
+    stock: 8,
+    featured: true,
     colors: [
-      { name: "Black", hex: "#1a1a1a", image: joggerBlack },
+      {
+        name: "Red & Pure White",
+        hex: "#ea580c",
+        image: "https://images.unsplash.com/photo-1516683037151-9a17603a8dc7?auto=format&fit=crop&w=800&q=80",
+      },
     ],
-    sizes: ["XS", "S", "M", "L", "XL", "XXL"],
-    description: "380gsm heavyweight fleece jogger with elastic cuff and drawcord waist.",
+    sizes: ["6-8 inch (Handpicked)", "10-12 inch"],
+    description: "Classic two-step Kohaku with porcelain-white Shiroji skin and crimson Hi markings. Selected from certified Japanese bloodlines with vibrant scale sheen.",
     details: [
-      { label: "Composition", value: "80% Cotton, 20% Polyester" },
-      { label: "Weight", value: "380gsm" },
-      { label: "Fit", value: "Regular tapered" },
-      { label: "Care", value: "Machine wash cold" },
+      { label: "Bloodline", value: "Niigata Lineage Selected" },
+      { label: "Pattern", value: "Nidan (2-Step) Kohaku" },
+      { label: "Habitat", value: "Outdoor pond or large indoor aquarium (300L+)" },
+      { label: "Packaging", value: "Heavy-duty double poly bag with pure oxygen" },
     ],
   },
   {
-    id: "6",
-    name: "Track Jacket",
-    slug: "track-jacket",
-    price: 155,
-    category: "jackets",
+    id: "cbr-10",
+    name: "Neon Tetra School (Pack of 10)",
+    slug: "neon-tetra-school",
+    price: 450,
+    category: "ornamental-fish",
+    stock: 50,
+    featured: false,
     colors: [
-      { name: "Navy", hex: "#1B2A4A", image: jacketNavy },
+      {
+        name: "Neon Blue & Red",
+        hex: "#06b6d4",
+        image: "https://images.unsplash.com/photo-1535591273668-578e31182c4f?auto=format&fit=crop&w=800&q=80",
+      },
     ],
-    sizes: ["XS", "S", "M", "L", "XL", "XXL"],
-    description: "Full-zip track jacket with stand collar and side pockets. Bonded tech fabric.",
+    sizes: ["Pack of 10", "Pack of 20"],
+    description: "The quintessential planted tank schooling fish. Vivid iridescent electric-blue horizontal stripes that shimmer brilliantly under aquarium LED lighting.",
     details: [
-      { label: "Composition", value: "92% Polyester, 8% Elastane" },
-      { label: "Weight", value: "280gsm" },
-      { label: "Fit", value: "Regular" },
-      { label: "Care", value: "Machine wash cold" },
-    ],
-    isNew: true,
-  },
-  {
-    id: "7",
-    name: "Tank Top",
-    slug: "tank-top",
-    price: 45,
-    category: "t-shirts",
-    colors: [
-      { name: "White", hex: "#ffffff", image: tankWhite },
-    ],
-    sizes: ["XS", "S", "M", "L", "XL", "XXL"],
-    description: "220gsm cotton jersey tank. Dropped armhole, elongated fit.",
-    details: [
-      { label: "Composition", value: "100% Cotton" },
-      { label: "Weight", value: "220gsm" },
-      { label: "Fit", value: "Oversized" },
-      { label: "Care", value: "Machine wash cold" },
+      { label: "Schooling Size", value: "Pack of 10 healthy acclimated juveniles" },
+      { label: "Behavior", value: "Tight schooler, peaceful with all community species" },
+      { label: "Water", value: "Soft acidic to neutral water (pH 6.0 - 7.0)" },
     ],
   },
   {
-    id: "8",
-    name: "Cargo Short",
-    slug: "cargo-short",
-    price: 95,
-    category: "bottoms",
+    id: "cbr-11",
+    name: "Blue Paradise Gourami (Male)",
+    slug: "blue-paradise-gourami",
+    price: 420,
+    category: "paradise-gourami",
+    stock: 20,
+    featured: false,
     colors: [
-      { name: "Beige", hex: "#D2B48C", image: shortsBeige },
+      {
+        name: "Blue & Orange Barred",
+        hex: "#2563eb",
+        image: "https://images.unsplash.com/photo-1524704654690-b56c05c78a00?auto=format&fit=crop&w=800&q=80",
+      },
     ],
-    sizes: ["28", "30", "32", "34", "36", "38"],
-    description: "Relaxed fit cargo short above the knee. Durable cotton twill.",
+    sizes: ["Single Male", "Pair (M+F)"],
+    description: "Vibrant and resilient labyrinth fish with metallic blue body and red-orange tiger striping. Capable of breathing atmospheric air, making it extremely durable.",
     details: [
-      { label: "Composition", value: "100% Cotton Twill" },
-      { label: "Weight", value: "300gsm" },
-      { label: "Fit", value: "Relaxed" },
-      { label: "Care", value: "Machine wash cold" },
-    ],
-    isNew: true,
-  },
-  {
-    id: "9",
-    name: "Fitted Cap",
-    slug: "fitted-cap",
-    price: 40,
-    category: "accessories",
-    colors: [
-      { name: "Black", hex: "#1a1a1a", image: capBlack },
-    ],
-    sizes: ["S/M", "L/XL"],
-    description: "Structured six-panel cap with embroidered logo. Adjustable strap.",
-    details: [
-      { label: "Composition", value: "100% Cotton Twill" },
-      { label: "Fit", value: "Adjustable" },
-      { label: "Care", value: "Spot clean only" },
+      { label: "Hardiness", value: "Extremely hardy, room temp tolerant (18°C - 28°C)" },
+      { label: "Size", value: "3.0 - 3.5 inches" },
+      { label: "Diet", value: "Eats hydra, flatworms, flake food, and live prey" },
     ],
   },
   {
-    id: "10",
-    name: "Essential Hoodie",
-    slug: "essential-hoodie",
-    price: 130,
-    category: "hoodies",
+    id: "cbr-12",
+    name: "Seachem Prime Water Conditioner 250ml",
+    slug: "seachem-prime-water-conditioner-250ml",
+    price: 890,
+    category: "aquarium-accessories",
+    stock: 35,
+    featured: false,
     colors: [
-      { name: "Brown", hex: "#8B4513", image: hoodieBrown },
-      { name: "Black", hex: "#1a1a1a", image: hoodieBlack },
+      {
+        name: "250ml Bottle",
+        hex: "#b45309",
+        image: "https://images.unsplash.com/photo-1563861826100-9cb868fdbe1c?auto=format&fit=crop&w=800&q=80",
+      },
     ],
-    sizes: ["XS", "S", "M", "L", "XL", "XXL"],
-    description: "350gsm midweight French terry hoodie. Relaxed fit with split kangaroo pocket.",
+    sizes: ["100ml", "250ml", "500ml"],
+    description: "The industry standard complete water conditioner. Instantly removes chlorine, chloramine, and detoxifies ammonia, nitrite, and nitrate during water changes.",
     details: [
-      { label: "Composition", value: "100% Cotton" },
-      { label: "Weight", value: "350gsm" },
-      { label: "Fit", value: "Relaxed" },
-      { label: "Care", value: "Machine wash cold" },
+      { label: "Concentration", value: "5ml treats 200 Litres (Super concentrated)" },
+      { label: "Safety", value: "Non-acidic, will not impact pH or over-activate skimmers" },
+      { label: "Essential For", value: "Every tap water change and cycling emergency" },
     ],
-  },
-  {
-    id: "11",
-    name: "Relaxed Tee",
-    slug: "relaxed-tee",
-    price: 55,
-    category: "t-shirts",
-    colors: [
-      { name: "Black", hex: "#1a1a1a", image: teeBlack },
-      { name: "Cream", hex: "#F5F5DC", image: teeCream },
-    ],
-    sizes: ["XS", "S", "M", "L", "XL", "XXL"],
-    description: "240gsm cotton jersey tee. Relaxed fit with curved hem.",
-    details: [
-      { label: "Composition", value: "100% Cotton" },
-      { label: "Weight", value: "240gsm" },
-      { label: "Fit", value: "Relaxed" },
-      { label: "Care", value: "Machine wash cold" },
-    ],
-  },
-  {
-    id: "12",
-    name: "Essential Crewneck",
-    slug: "essential-crewneck",
-    price: 105,
-    category: "sweatshirts",
-    colors: [
-      { name: "White", hex: "#ffffff", image: crewWhite },
-      { name: "Grey Marl", hex: "#9e9e9e", image: crewGrey },
-    ],
-    sizes: ["XS", "S", "M", "L", "XL", "XXL"],
-    description: "350gsm midweight crewneck. Classic fit with clean neckline.",
-    details: [
-      { label: "Composition", value: "80% Cotton, 20% Polyester" },
-      { label: "Weight", value: "350gsm" },
-      { label: "Fit", value: "Classic" },
-      { label: "Care", value: "Machine wash cold" },
-    ],
-    soldOut: true,
   },
 ];
-
-export const categories = [
-  { label: "All", value: "all" },
-  { label: "Hoodies", value: "hoodies" },
-  { label: "T-Shirts", value: "t-shirts" },
-  { label: "Sweatshirts", value: "sweatshirts" },
-  { label: "Bottoms", value: "bottoms" },
-  { label: "Jackets", value: "jackets" },
-  { label: "Accessories", value: "accessories" },
-];
-
-export function getProductBySlug(slug: string): Product | undefined {
-  return products.find((p) => p.slug === slug);
-}

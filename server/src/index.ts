@@ -834,6 +834,29 @@ app.post("/api/upload", upload.array("files"), async (req, res) => {
   res.json(results);
 });
 
+// --- SERVE SPA FRONTEND IN PRODUCTION ---
+const clientDistCandidates = [
+  path.resolve(process.cwd(), "dist"),
+  path.resolve(__dirname, "../../../dist"),
+  path.resolve(__dirname, "../../dist"),
+];
+const clientDistPath = clientDistCandidates.find((p) => fs.existsSync(p));
+
+if (clientDistPath) {
+  app.use(express.static(clientDistPath, { maxAge: "1d", index: false }));
+  app.get("*", (req, res, next) => {
+    if (
+      req.path.startsWith("/api") ||
+      req.path.startsWith("/uploads") ||
+      req.path === "/sitemap.xml" ||
+      req.path === "/robots.txt"
+    ) {
+      return next();
+    }
+    res.sendFile(path.join(clientDistPath, "index.html"));
+  });
+}
+
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
   if (!isMailConfigured()) console.warn("WARNING: SMTP_PASS not set — order/contact emails are DISABLED.");

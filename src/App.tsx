@@ -18,6 +18,7 @@ const Shop = lazy(() => import("./pages/Shop.tsx"));
 const ProductDetail = lazy(() => import("./pages/ProductDetail.tsx"));
 const Collections = lazy(() => import("./pages/Collections.tsx"));
 const Lookbook = lazy(() => import("./pages/Lookbook.tsx"));
+const Services = lazy(() => import("./pages/Services.tsx"));
 const About = lazy(() => import("./pages/About.tsx"));
 const Contact = lazy(() => import("./pages/Contact.tsx"));
 const FAQ = lazy(() => import("./pages/FAQ.tsx"));
@@ -99,6 +100,8 @@ const App = () => (
                   <Route path="/product/:slug" element={<ProductDetail />} />
                   <Route path="/collections" element={<Collections />} />
                   <Route path="/lookbook" element={<Lookbook />} />
+                  <Route path="/gallery" element={<Lookbook />} />
+                  <Route path="/services" element={<Services />} />
                   <Route path="/about" element={<About />} />
                   <Route path="/contact" element={<Contact />} />
                   <Route path="/faq" element={<FAQ />} />
