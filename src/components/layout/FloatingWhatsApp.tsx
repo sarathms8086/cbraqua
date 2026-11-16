@@ -8,7 +8,7 @@ const FloatingWhatsApp = () => {
   const handleSend = (e: React.FormEvent) => {
     e.preventDefault();
     const encoded = encodeURIComponent(msg.trim() || "Hello CBR AQUA, I would like to inquire about live fish / aquascaping services.");
-    window.open(`https://wa.me/919876543210?text=${encoded}`, "_blank");
+    window.open(`https://wa.me/919481816563?text=${encoded}`, "_blank");
     setOpen(false);
     setMsg("");
   };

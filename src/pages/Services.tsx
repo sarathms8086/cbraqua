@@ -100,7 +100,7 @@ const Services = () => {
                   type="button"
                   onClick={() => {
                     const text = encodeURIComponent(`Hello CBR AQUA team, I am interested in inquiring about ${svc.title}.`);
-                    window.open(`https://wa.me/919876543210?text=${text}`, "_blank");
+                    window.open(`https://wa.me/919481816563?text=${text}`, "_blank");
                   }}
                   className="w-full bg-[#111e2c] hover:bg-[#162738] border border-[#1d3347] hover:border-cyan-400 text-cyan-300 hover:text-white py-2.5 rounded-full text-xs font-bold transition-all flex items-center justify-center gap-2"
                 >

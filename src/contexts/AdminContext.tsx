@@ -62,7 +62,7 @@ export const DEFAULT_PAGE_CONTENT: PageContent = {
   contact: {
     subtitle: "Have questions about species compatibility, live shipping, or custom aquascapes? Our certified aquarists are here to assist.",
     email: "hello@cbraqua.com",
-    phone: "+91 98765 43210",
+    phone: "+91 94818 16563",
     address: "CBR AQUA CULTURE Studio & Quarantine Facility, Hyderabad & Bangalore, India",
   },
 };

@@ -133,7 +133,7 @@ const Index = () => {
                 type="button"
                 onClick={() => {
                   window.open(
-                    "https://wa.me/919876543210?text=Hello%20CBR%20AQUA%20team,%20I%20would%20like%20to%20chat%20with%20an%20aquarist%20expert.",
+                    "https://wa.me/919481816563?text=Hello%20CBR%20AQUA%20team,%20I%20would%20like%20to%20chat%20with%20an%20aquarist%20expert.",
                     "_blank"
                   );
                 }}
