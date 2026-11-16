@@ -844,8 +844,10 @@ const clientDistPath = clientDistCandidates.find((p) => fs.existsSync(p));
 
 if (clientDistPath) {
   app.use(express.static(clientDistPath, { maxAge: "1d", index: false }));
-  app.get("*", (req, res, next) => {
+  // Fallback for Single Page Application navigation (safe for Express 4 and Express 5/path-to-regexp v8)
+  app.use((req, res, next) => {
     if (
+      req.method !== "GET" ||
       req.path.startsWith("/api") ||
       req.path.startsWith("/uploads") ||
       req.path === "/sitemap.xml" ||
