@@ -1,9 +1,9 @@
-FROM node:20-bullseye-slim
+FROM node:20-bookworm-slim
 
 WORKDIR /app
 
-# Install openssl and ffmpeg (required for Prisma SQLite engine and video compression)
-RUN apt-get update && apt-get install -y openssl ffmpeg ca-certificates && rm -rf /var/lib/apt/lists/*
+# Install openssl and ca-certificates (required for Prisma engine)
+RUN apt-get update && apt-get install -y --no-install-recommends openssl ca-certificates && rm -rf /var/lib/apt/lists/*
 
 # Copy package descriptors
 COPY package*.json ./
